@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:id="@+id/alert_dialog_view_id"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/column_edit_txt_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="კოლუმნის ნომერი"
+        android:inputType="number"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/save_btn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="შენახვა"
+        android:textColor="@color/colorPrimary"
+        android:background="#fff"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/column_edit_txt_id"
+        android:layout_marginTop="35dp"
+        android:layout_marginStart="40dp"
+
+        />
+    <Button
+        android:id="@+id/cancel_btn_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="გაუქმება"
+        android:textColor="@color/colorPrimary"
+        android:background="#fff"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/column_edit_txt_id"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="40dp"
+
+        />
+
+</android.support.constraint.ConstraintLayout>
