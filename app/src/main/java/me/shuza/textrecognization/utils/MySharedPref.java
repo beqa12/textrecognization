@@ -16,6 +16,6 @@ public class MySharedPref {
 
     public static int getColumnNumber(Context context){
         SharedPreferences preferences = context.getSharedPreferences(COLUMN_QUANTITY_PREF, Context.MODE_PRIVATE);
-        return preferences.getInt(NUMBER_COLUMN, 0);
+        return preferences.getInt(NUMBER_COLUMN, -1);
     }
 }

@@ -41,43 +41,59 @@
                 android:src="@drawable/ic_menu"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-
                 />
         </android.support.constraint.ConstraintLayout>
 
-
     </android.support.v7.widget.Toolbar>
 
-
-    <Button
-        android:id="@+id/fetch_btn_id"
-        app:layout_constraintStart_toStartOf="parent"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/btns_container"
         app:layout_constraintTop_toBottomOf="@+id/top_toolbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="ჩამოტვირთვა"
-        android:layout_marginStart="2dp"
-        android:textColor="@color/colorPrimaryDark"
-        android:background="#fff"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/start_btn_id"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/top_toolbar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="შემოწმების დაწყება"
-        android:layout_marginEnd="2dp"
-        android:background="#fff"
-        android:textColor="@color/colorPrimary"
-        />
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/fetch_btn_id"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="ჩამოტვირთვა"
+            android:padding="15dp"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/btns_drawable"
+            android:layout_marginStart="5dp"
+            android:textColor="#fff"
+            />
 
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/start_btn_id"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/btns_drawable"
+            android:text="შემოწმების დაწყება"
+            android:padding="15dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginStart="5dp"
+            android:textColor="#fff"
+            />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_id"
         android:layout_width="match_parent"
-        app:layout_constraintTop_toBottomOf="@+id/fetch_btn_id"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btns_container"
         android:layout_height="0dp"/>
     <TextView
         android:id="@+id/count_id"
@@ -86,7 +102,7 @@
         android:textColor="#BB1111"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/start_btn_id"
+        app:layout_constraintTop_toBottomOf="@+id/btns_container"
         android:layout_marginEnd="3dp"
         />
 </android.support.constraint.ConstraintLayout>
