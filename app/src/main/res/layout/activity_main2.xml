@@ -1,108 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Main2Activity">
+    >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/top_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <android.support.constraint.ConstraintLayout
-            android:id="@+id/constraintLayout_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
-
-            <TextView
-                android:id="@+id/destination_label_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="უტილიზაცია"
-                android:textColor="#fff"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <ImageView
-                android:id="@+id/menu_id"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:outlineAmbientShadowColor="#fff"
-                android:src="@drawable/ic_menu"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
-        </android.support.constraint.ConstraintLayout>
-
-    </android.support.v7.widget.Toolbar>
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/btns_container"
-        app:layout_constraintTop_toBottomOf="@+id/top_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/fetch_btn_id"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
-            app:layout_constraintTop_toTopOf="parent"
-            android:text="ჩამოტვირთვა"
-            android:padding="15dp"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/btns_drawable"
-            android:layout_marginStart="5dp"
-            android:textColor="#fff"
-            />
-
-        <android.support.v7.widget.AppCompatTextView
-            android:id="@+id/start_btn_id"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:foreground="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:layout_marginTop="3dp"
-            android:background="@drawable/btns_drawable"
-            android:text="შემოწმების დაწყება"
-            android:padding="15dp"
-            android:layout_marginEnd="5dp"
-            android:layout_marginStart="5dp"
-            android:textColor="#fff"
-            />
-
-    </android.support.constraint.ConstraintLayout>
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_id"
-        android:layout_width="match_parent"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btns_container"
-        android:layout_height="0dp"/>
-    <TextView
-        android:id="@+id/count_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#BB1111"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btns_container"
-        android:layout_marginEnd="3dp"
-        />
+<!--    <org.jetbrains.anko._FrameLayout-->
+<!--        android:id="@+id/frame_contaoner"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"/>-->
 </android.support.constraint.ConstraintLayout>

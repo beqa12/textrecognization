@@ -1,19 +1,21 @@
-package me.shuza.textrecognization.adapters
+package me.shuza.textrecognization.view
 
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ListFragment
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.AppCompatTextView
 import android.view.LayoutInflater
+import android.widget.Toast
 import me.shuza.textrecognization.R
-import org.jetbrains.anko.AlertDialogBuilder
+import me.shuza.textrecognization.inter.ICheckColor
+import me.shuza.textrecognization.model.Model
 
-class LouncherActivity : AppCompatActivity() {
+
+class LouncherActivity : AppCompatActivity(), ICheckColor {
 
     private var writeExternalStorage = -1
     private var readExternalStorage = -1
@@ -21,11 +23,13 @@ class LouncherActivity : AppCompatActivity() {
     private var STORAGE_REQUEST_CODE = 10
     private var builder: AlertDialog? = null
     private var listFragment: me.shuza.textrecognization.fragments.ListFragment? = null
+//    private var camerFragmetn: CameraFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_louncher)
         listFragment = me.shuza.textrecognization.fragments.ListFragment.getInstance()
+//        camerFragmetn = CameraFragment.getInstance()
         checkPermission()
 
     }
@@ -52,6 +56,24 @@ class LouncherActivity : AppCompatActivity() {
         }
     }
 
+//    override fun onBackPressed() {
+//        val count = supportFragmentManager.backStackEntryCount
+//        if (count == 0) {
+//            super.onBackPressed()
+//            //additional code
+//        } else {
+//           val current = supportFragmentManager.findFragmentById(R.id.frame_contaoner)
+//            if (current is CameraFragment){
+//                supportFragmentManager
+//                        .beginTransaction()
+//                        .remove(current)
+//                        .commit()
+//            }
+//            supportFragmentManager.popBackStack()
+//        }
+//
+//    }
+
     private fun showdeniedAlert(context: Context) {
         val dialog = AlertDialog.Builder(this)
         val deniedView = LayoutInflater.from(context).inflate(R.layout.denied, null, false)
@@ -66,7 +88,30 @@ class LouncherActivity : AppCompatActivity() {
     private fun addFragments() {
         val transaction = supportFragmentManager.beginTransaction()
         transaction
-                .add(R.id.frame_contaoner, listFragment!!)
+                .replace(R.id.frame_contaoner, listFragment!!)
                 .commit()
     }
+
+//    override fun addcameraFragment() {
+//        supportFragmentManager
+//                .beginTransaction()
+//                .add(R.id.frame_contaoner, camerFragmetn!!)
+//                .commit()
+//    }
+
+    override fun checkColor(model: Model) {
+        Toast.makeText(this, "Movida", Toast.LENGTH_LONG).show()
+        listFragment?.models?.add(model)
+        listFragment?.modelAdapter?.notifyDataSetChanged()
+    }
+
+//    override fun closeCamera() {
+//        val current = supportFragmentManager.findFragmentById(R.id.frame_contaoner)
+//        if (current is CameraFragment){
+//            supportFragmentManager
+//                    .beginTransaction()
+//                    .remove(current)
+//                    .commit()
+//        }
+//    }
 }

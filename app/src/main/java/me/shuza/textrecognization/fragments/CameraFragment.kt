@@ -1,45 +1,74 @@
-//package me.shuza.textrecognization
+//package me.shuza.textrecognization.fragments
 //
 //import android.Manifest
 //import android.annotation.SuppressLint
+//import android.content.Context
 //import android.content.pm.PackageManager
 //import android.graphics.Color
 //import android.os.Bundle
 //import android.support.v4.app.ActivityCompat
-//import android.support.v7.app.AppCompatActivity
+//import android.support.v4.app.Fragment
+//import android.util.SparseArray
+//import android.view.LayoutInflater
 //import android.view.SurfaceHolder
+//import android.view.View
+//import android.view.ViewGroup
 //import com.google.android.gms.vision.CameraSource
 //import com.google.android.gms.vision.Detector
 //import com.google.android.gms.vision.text.TextBlock
 //import com.google.android.gms.vision.text.TextRecognizer
 //import com.orhanobut.logger.Logger
-//import kotlinx.android.synthetic.main.activity_main.*
-//import me.shuza.textrecognization.helper.CheckedColors.Companion.setColor
+//import kotlinx.android.synthetic.main.camera_layout.*
+//import kotlinx.android.synthetic.main.camera_layout.view.*
+//import me.shuza.textrecognization.R
+//import me.shuza.textrecognization.adapters.ModelRecyclerAdapter
 //import me.shuza.textrecognization.inter.ICheckColor
+//import me.shuza.textrecognization.model.Model
 //import me.shuza.textrecognization.utils.MySharedPref
-//import org.jetbrains.anko.toast
+//import me.shuza.textrecognization.view.Data
+//import org.jetbrains.anko.support.v4.toast
 //import kotlin.properties.Delegates
 //
-//
-//class MainActivity : AppCompatActivity() {
-//
+//class CameraFragment : Fragment() {
 //    private var mCameraSource by Delegates.notNull<CameraSource>()
 //    private var textRecognizer by Delegates.notNull<TextRecognizer>()
-//
 //    private val PERMISSION_REQUEST_CAMERA = 100
 //    private var checkedItemsCounter = 0
 //    var checkedColor = 0
-//    override fun onCreate(savedInstanceState: Bundle?) {
-//        super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
+//    var items: SparseArray<TextBlock>? = null
+//    companion object{
+//        fun getInstance(): CameraFragment{
+//            return CameraFragment()
+//        }
+//    }
+//
+//    override fun onAttach(context: Context?) {
+//        super.onAttach(context)
+//        checkListener = context as? ICheckColor
+//        closeListener = context as? ICloseCamera
+//    }
+//
+//    override fun onDetach() {
+//        super.onDetach()
+//        checkListener = null
+//        closeListener = null
+//    }
+//    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        val view = LayoutInflater.from(context).inflate(R.layout.camera_layout, container, false)
+//        return view
+//    }
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        view.back.setOnClickListener{
+//            closeListener?.closeCamera()
+//        }
 //        startCameraSource()
 //    }
 //
 //    private fun startCameraSource() {
-//
 //        //  Create text Recognizer
-//        textRecognizer = TextRecognizer.Builder(this).build()
-//
+//        textRecognizer = TextRecognizer.Builder(context).build()
 //        if (!textRecognizer.isOperational) {
 //            toast("Dependencies are not loaded yet...please try after few moment!!")
 //            Logger.d("Dependencies are downloading....try after few moment")
@@ -47,7 +76,7 @@
 //        }
 //
 //        //  Init camera source to use high resolution and auto focus
-//        mCameraSource = CameraSource.Builder(applicationContext, textRecognizer)
+//        mCameraSource = CameraSource.Builder(context, textRecognizer)
 //                .setFacing(CameraSource.CAMERA_FACING_BACK)
 //                .setRequestedPreviewSize(1280, 1024)
 //                .setAutoFocusEnabled(true)
@@ -66,11 +95,7 @@
 //            @SuppressLint("MissingPermission")
 //            override fun surfaceCreated(p0: SurfaceHolder?) {
 //                try {
-//                    if (isCameraPermissionGranted()) {
-//                        mCameraSource.start(surface_camera_preview.holder)
-//                    } else {
-//                        requestForPermission()
-//                    }
+//                    mCameraSource.start(surface_camera_preview.holder)
 //                } catch (e: Exception) {
 //                    toast("Error:  ${e.message}")
 //                }
@@ -79,27 +104,26 @@
 //
 //        textRecognizer.setProcessor(object : Detector.Processor<TextBlock> {
 //            override fun release() {}
-//
 //            override fun receiveDetections(detections: Detector.Detections<TextBlock>) {
-//                val items = detections.detectedItems
+//                items = detections.detectedItems
 //
-//                if (items.size() <= 0) {
+//                if (items?.size()!! <= 0) {
 //                    return
 //                }
-//
 //                tv_result_id.post {
-//                    for (i in 0 until items.size()) {
-//                        val item = items.valueAt(i)
+//                    for (i in 0 until items!!.size()) {
+//                        val item = items!!.valueAt(i)
+//                        var model = Model()
 //                        if (item.value.length == 9) {
-//                            if (Data.list.contains(item.value)) {
-//                                tv_result_id.setTextColor(Color.GREEN)
-//                                checkedColor  = 1
-//                                MySharedPref.saveChecked(this@MainActivity, checkedColor)
-//                                checkedColor = 0
-//                            } else {
-//                                tv_result_id.setTextColor(Color.RED)
-//                            }
-//                            tv_result_id.text = item.value
+//                                if (Data.dataList.contains(item.value)) {
+//                                    tv_result_id.setTextColor(Color.GREEN)
+//                                    model.name = item.value
+//                                    model.checked = true
+//                                    checkListener?.checkColor(model)
+//                                } else {
+//                                    tv_result_id.setTextColor(Color.RED)
+//                                }
+//                                tv_result_id.text = item.value
 //                        }
 //                    }
 //                }
@@ -133,30 +157,13 @@
 //        return isText
 //    }
 //
-//    fun isCameraPermissionGranted(): Boolean {
-//        return ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) ==
-//                PackageManager.PERMISSION_GRANTED
+//    var checkListener: ICheckColor? = null
+////    fun setChecked(listener: ICheckColor){
+////        this.checkListener = listener
+////    }
+//
+//    var closeListener: ICloseCamera? = null
+//    interface ICloseCamera{
+//        fun closeCamera()
 //    }
-//
-//    private fun requestForPermission() {
-//        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), PERMISSION_REQUEST_CAMERA)
-//    }
-//
-//    @SuppressLint("MissingPermission")
-//    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-//        if (requestCode != PERMISSION_REQUEST_CAMERA) {
-//            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//            return
-//        }
-//
-//        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//            if (isCameraPermissionGranted()) {
-//                mCameraSource.start(surface_camera_preview.holder)
-//            } else {
-//                toast("Permission need to grant")
-//                finish()
-//            }
-//        }
-//    }
-//
 //}
