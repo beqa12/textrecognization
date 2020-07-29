@@ -16,16 +16,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.CameraAcitivity"></activity>
-        <activity android:name=".view.LouncherActivity">
-
-            <!-- <activity android:name=".Main2Activity"> -->
+        <activity android:name=".view.ChooseTypeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
+        </activity>
+        <activity android:name=".view.CameraAcitivity" />
+        <activity android:name=".view.LouncherActivity">
             <meta-data
                 android:name="com.google.android.gms.vision.DEPENDENCIES"
                 android:value="ocr" />

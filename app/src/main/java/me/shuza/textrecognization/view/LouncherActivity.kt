@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.service.chooser.ChooserTargetService
 import android.support.v4.app.ActivityCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
@@ -16,20 +17,17 @@ import me.shuza.textrecognization.model.Model
 
 
 class LouncherActivity : AppCompatActivity(), ICheckColor {
-
     private var writeExternalStorage = -1
     private var readExternalStorage = -1
     private var camera = -1
     private var STORAGE_REQUEST_CODE = 10
     private var builder: AlertDialog? = null
     private var listFragment: me.shuza.textrecognization.fragments.ListFragment? = null
-//    private var camerFragmetn: CameraFragment? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_louncher)
         listFragment = me.shuza.textrecognization.fragments.ListFragment.getInstance()
-//        camerFragmetn = CameraFragment.getInstance()
         checkPermission()
 
     }

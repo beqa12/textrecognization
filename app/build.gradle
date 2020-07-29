@@ -47,4 +47,9 @@ dependencies {
     implementation files('libs/poi-ooxml-4.1.0.jar')
     implementation files('libs/poi-ooxml-schemas-4.1.0.jar')
     implementation files('libs/poi-scratchpad-4.1.0.jar')
+
+//    implementation 'com.airbnb.android:lottie:3.4.1'
+
+
+
 }

@@ -18,6 +18,8 @@ import kotlinx.android.synthetic.main.camera_layout.*
 import me.shuza.textrecognization.R
 import me.shuza.textrecognization.inter.ICheckColor
 import me.shuza.textrecognization.model.Model
+import me.shuza.textrecognization.utils.ApiConstants
+import me.shuza.textrecognization.utils.MySharedPref
 import org.jetbrains.anko.support.v4.toast
 import org.jetbrains.anko.toast
 import kotlin.properties.Delegates
@@ -40,7 +42,8 @@ class CameraAcitivity : AppCompatActivity() {
 
     private fun startCameraSource() {
         //  Create text Recognizer
-        textRecognizer = TextRecognizer.Builder(this).build()
+        textRecognizer = TextRecognizer.Builder(this)
+                .build()
         if (!textRecognizer.isOperational) {
             toast("Dependencies are not loaded yet...please try after few moment!!")
             Logger.d("Dependencies are downloading....try after few moment")
@@ -88,33 +91,27 @@ class CameraAcitivity : AppCompatActivity() {
                         var item = items.valueAt(i)
                         var model = Model()
 
-                        if (item.value.length == 9 ) {
-                            var itemValue = isText(item.value)
-                            if (Data.dataList.contains(itemValue)) {
-                                tv_result_id.setTextColor(Color.GREEN)
-//                                model.name = item.value
-////                                model.checked = true
-                                if (Data.counterList.size == 0) {
-                                    Data.counterList.add(itemValue)
-                                    checked_counter.text = Data.counterList.size.toString()
-                                    Log.e("TAG", "პირველი შესვლა-> ${Data.counterList.size}")
-                                } else {
-                                    if (!(Data.counterList.contains(itemValue))) {
-                                        Data.counterList.add(itemValue)
-                                        checked_counter.text = Data.counterList.size.toString()
-                                        Log.e("TAG", "shevida-> ${Data.counterList.size}")
-                                    } else {
-                                        println("contains")
-                                        Log.e("TAG", "ar shevida -> ${Data.counterList.size}")
-                                    }
-                                }
-
-
-                            } else {
-                                tv_result_id.setTextColor(Color.RED)
+                        val checkedRadioBtn = MySharedPref.getCheckedRadioBtn(this@CameraAcitivity)
+                        when (checkedRadioBtn) {
+                            ApiConstants.PERSONAL_IDENTITY -> {
+                                Log.e("TAG", "checked: piradobebi")
                             }
-                            tv_result_id.text = itemValue
+                            ApiConstants.DRIVING_LICENCE -> {
+                                checkDrivingLicence(item)
+                                Log.e("TAG", "checked: martvis mowmobebi")
+                            }
+                            ApiConstants.PASPORTS -> {
+                                Log.e("TAG", "checked: checked: passports")
+                            }
+                            ApiConstants.NONE -> {
+                                Log.e("TAG", "აირჩიეთ ტიპი")
+                            }
+                            else -> {
+                                Log.e("TAG", "ar vici ra xdeba")
+                            }
                         }
+
+
                     }
                 }
             }
@@ -146,18 +143,37 @@ class CameraAcitivity : AppCompatActivity() {
             }
             element += one
         }
-        var all = index0.toString() + index1.toString() + element
+        val all = index0.toString() + index1.toString() + element
         return all
     }
 
-//    var checkListener: ICheckColor? = null
-////    fun setChecked(listener: ICheckColor){
-////        this.checkListener = listener
-////    }
-//
-//    var closeListener: ICloseCamera? = null
-//    interface ICloseCamera{
-//        fun closeCamera()
-//    }
+    fun checkDrivingLicence(item: TextBlock){
+        if (item.value.length == 9) {
+            var itemValue = isText(item.value)
+            if (Data.dataList.contains(itemValue)) {
+                tv_result_id.setTextColor(Color.GREEN)
+//                                model.name = item.value
+////                                model.checked = true
+                if (Data.counterList.size == 0) {
+                    Data.counterList.add(itemValue)
+                    checked_counter.text = Data.counterList.size.toString()
+                    Log.e("TAG", "პირველი შესვლა-> ${Data.counterList.size}")
+                } else {
+                    if (!(Data.counterList.contains(itemValue))) {
+                        Data.counterList.add(itemValue)
+                        checked_counter.text = Data.counterList.size.toString()
+                        Log.e("TAG", "shevida-> ${Data.counterList.size}")
+                    } else {
+                        println("contains")
+                        Log.e("TAG", "ar shevida -> ${Data.counterList.size}")
+                    }
+                }
+
+            } else {
+                tv_result_id.setTextColor(Color.RED)
+            }
+            tv_result_id.text = itemValue
+        }
+    }
 
 }
