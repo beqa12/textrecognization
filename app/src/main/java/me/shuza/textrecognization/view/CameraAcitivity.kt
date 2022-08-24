@@ -29,6 +29,10 @@ class CameraAcitivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera_acitivity)
+//        Data.testList.add("623405")
+//        Data.testList.add("0022299")
+//        Data.testList.add("0011040")
+
         startCameraSource()
         delete.setOnClickListener {
             Data.counterList.clear()
@@ -96,6 +100,9 @@ class CameraAcitivity : AppCompatActivity() {
                             }
                             ApiConstants.PASPORTS -> {
                                 Log.e("TAG", "checked: checked: passports")
+                            }
+                            ApiConstants.OTHER -> {
+                                checkOther(item)
                             }
                             ApiConstants.NONE -> {
                                 Log.e("TAG", "აირჩიეთ ტიპი")
@@ -170,6 +177,11 @@ class CameraAcitivity : AppCompatActivity() {
         return all
     }
 
+    private fun isTextForOther(string: String): String {
+        val endIndex = if (string.length == 9) 9 else 8
+        return string.subSequence(2, endIndex).toString()
+    }
+
     private fun checkPersonalIdentity(item: TextBlock) {
         if (item.value.length == 9) {
             var isNumber = checkForNumbersPersonalIdentity(item.value)
@@ -177,8 +189,6 @@ class CameraAcitivity : AppCompatActivity() {
                 Log.e("TAG", item.value)
                 if (Data.dataList.contains(item.value)) {
                     tv_result_id.setTextColor(Color.GREEN)
-//                                model.name = item.value
-////                                model.checked = true
                     if (Data.counterList.size == 0) {
                         Data.counterList.add(item.value)
                         checked_counter.text = Data.counterList.size.toString()
@@ -208,8 +218,6 @@ class CameraAcitivity : AppCompatActivity() {
             var itemValue = isText(item.value)
             if (Data.dataList.contains(itemValue)) {
                 tv_result_id.setTextColor(Color.GREEN)
-//                                model.name = item.value
-////                                model.checked = true
                 if (Data.counterList.size == 0) {
                     Data.counterList.add(itemValue)
                     checked_counter.text = Data.counterList.size.toString()
@@ -231,5 +239,30 @@ class CameraAcitivity : AppCompatActivity() {
             tv_result_id.text = itemValue
         }
     }
+
+    fun checkOther(item: TextBlock) {
+        if (item.value.length == 9 || item.value.length == 8) {
+            val itemValue = isTextForOther(item.value)
+            if (Data.dataList.contains(itemValue)) {
+                tv_result_id.setTextColor(Color.GREEN)
+                if (Data.counterList.size == 0) {
+                    Data.counterList.add(itemValue)
+                    checked_counter.text = Data.counterList.size.toString()
+                } else {
+                    if (!(Data.counterList.contains(itemValue))) {
+                        Data.counterList.add(itemValue)
+                        checked_counter.text = Data.counterList.size.toString()
+                    } else {
+                        Log.e("TAG", "ar shevida -> ${Data.counterList.size}")
+                    }
+                }
+
+            } else {
+                tv_result_id.setTextColor(Color.RED)
+            }
+            tv_result_id.text = itemValue
+        }
+    }
+
 
 }

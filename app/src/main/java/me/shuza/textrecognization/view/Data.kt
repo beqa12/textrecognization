@@ -4,7 +4,6 @@ class Data {
     companion object{
         var dataList: ArrayList<String> = ArrayList()
         var counterList: ArrayList<String> = ArrayList()
+        var testList = ArrayList<String>()
     }
-
-
 }

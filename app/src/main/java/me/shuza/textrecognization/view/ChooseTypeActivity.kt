@@ -45,7 +45,6 @@ class ChooseTypeActivity : AppCompatActivity() {
             }else {
                 MySharedPref.saveCheckedRadioBtn(this, checkedRadioBtn)
                 val intent = Intent(this, LouncherActivity::class.java)
-
                 startActivity(intent)
             }
         }
